@@ -1,0 +1,20 @@
+{
+  "name": "wordle_solver",
+  "version": "1.0.0",
+  "description": "a simple node module to solve wordle ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server"
+  },
+  "author": "Ahmed Heikal",
+  "license": "ISC",
+  "dependencies": {
+    "assert": "^2.0.0",
+    "puppeteer": "^13.3.2",
+    "selenium-webdriver": "^4.1.1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.0"
+  }
+}
