@@ -1,8 +1,11 @@
 const delay = require('./delay')
+const Dataset = require("./dataset");
 
 class WordleActions {
     constructor(page) {
-        this.page = page
+        this.success = false;
+        this.dataset = new Dataset('./shared/valid_solutions.csv');
+        this.page = page;
     }
 
     async writeWord(string) {
@@ -19,7 +22,9 @@ class WordleActions {
             .querySelector('game-theme-manager')
             .querySelector('#game')
             .querySelectorAll('game-row'));
-        console.log(rows[index]._letters, rows[index]._evaluation)
+        this.success = rows[index]._evaluation.filter(evaluation => evaluation === 'correct').length === rows[index]._evaluation.length;
+        this.dataset.addFilter(rows[index]._letters, rows[index]._evaluation)
+        this.dataset.applyFilters();
     }
 }
 

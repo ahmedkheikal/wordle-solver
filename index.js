@@ -29,19 +29,24 @@ async function main() {
     await page.mouse.click(132, 103, {button: 'left'})
 
     const wordle = new WordleActions(page)
-    await wordle.writeWord('fucks');
-    await wordle.getEvaluation(0)
-    await wordle.writeWord('sucks')
-    await wordle.writeWord('ducks')
-    await wordle.writeWord('crews')
-
+    await wordle.dataset.load();
+    await delay(1000)
+    let int = 0;
+    try {
+        while (!wordle.success) {
+            let word = wordle.dataset.getRandomWord();
+            await wordle.writeWord(word);
+            await wordle.getEvaluation(int++)
+        }
+    } catch (exception) {
+        main().then(r => console.log('failure retry'));
+    }
 
     await page.screenshot({path: 'example2.png'});
 
     await delay(3000);
 
 
-    await browser.close();
 }
 
 main().then(r => console.log())
