@@ -24,12 +24,23 @@ class Dataset {
     // evaluations: absent, correct, present
     addFilter(word, evaluations) {
         for (let letterIndex in word) {
-            this.filters.push({
-                position: letterIndex,
-                letter: word[letterIndex],
-                evaluation: evaluations[letterIndex]
-            });
+            // duplicate letters one of them returns absent
+            let existingAbsent = this.filters.filter((filter) => filter.letter === word[letterIndex] && filter.evaluation === 'absent');
+            if (existingAbsent.length === 0) {
+                this.filters.push({
+                    position: letterIndex,
+                    letter: word[letterIndex],
+                    evaluation: evaluations[letterIndex]
+                });
+            } else {
+                this.filters[this.filters.findIndex(filter => filter.letter === word[letterIndex])] = {
+                    position: letterIndex,
+                    letter: word[letterIndex],
+                    evaluation: evaluations[letterIndex]
+                };
+            }
         }
+        console.log(this.filters)
     }
 
     applyFilters() {
