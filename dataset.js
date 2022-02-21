@@ -26,21 +26,26 @@ class Dataset {
         for (let letterIndex in word) {
             // duplicate letters one of them returns absent
             let existingAbsent = this.filters.filter((filter) => filter.letter === word[letterIndex] && filter.evaluation === 'absent');
-            if (existingAbsent.length === 0) {
-                this.filters.push({
-                    position: letterIndex,
-                    letter: word[letterIndex],
-                    evaluation: evaluations[letterIndex]
-                });
-            } else {
+            let existingPresent = this.filters.filter((filter) => filter.letter === word[letterIndex] && filter.evaluation === 'present');
+            let existingCorrect = this.filters.filter((filter) => filter.letter === word[letterIndex] && filter.evaluation === 'correct');
+            if (existingAbsent.length > 0) {
                 this.filters[this.filters.findIndex(filter => filter.letter === word[letterIndex])] = {
                     position: letterIndex,
                     letter: word[letterIndex],
                     evaluation: evaluations[letterIndex]
                 };
+            } else if (existingCorrect.length > 0 && evaluations[letterIndex] === 'absent') {
+                // do nothing
+            } else if (existingPresent.length > 0 && evaluations[letterIndex] === 'absent') {
+                // do nothing
+            } else {
+                this.filters.push({
+                    position: letterIndex,
+                    letter: word[letterIndex],
+                    evaluation: evaluations[letterIndex]
+                });
             }
         }
-        console.log(this.filters)
     }
 
     applyFilters() {

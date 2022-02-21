@@ -35,7 +35,10 @@ async function main() {
     try {
         while (!wordle.success) {
             let word = wordle.dataset.getRandomWord();
-            await wordle.writeWord(word);
+            if (int === 0)
+                await wordle.writeWord('irate');
+            else
+                await wordle.writeWord(word);
             await wordle.getEvaluation(int++)
         }
     } catch (exception) {
